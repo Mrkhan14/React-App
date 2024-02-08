@@ -1,7 +1,7 @@
 A project for a large market.
 [MY BLOG](http://aazimov.uz/)
 
-![preview img](./React-app-1.png)
+![preview img](./React-app-2.png)
 
 
 
