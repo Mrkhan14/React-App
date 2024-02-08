@@ -11,7 +11,6 @@ function Avatar(props) {
         </div>
     );
 }
-
 function UserInfo(props) {
 
     console.log('a', props)
