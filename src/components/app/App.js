@@ -1,118 +1,127 @@
-import { Component} from "react";
+import './App.css';
+import { Component, useState}  from "react";
 
-import AppFilter from '../app-filter/app-filter'
-import AppInfo from '../app-info/app-info'
-import MovieList from '../movie-list/movie-list'
-import MoviesAddForm from '../movies-add-form/movies-add-form'
-import SearchPanel from '../search-panel/search-panel'
-import { v4 as uuidv4 } from 'uuid';
-import './App.css'
-class App extends  Component{
-	constructor(props) {
-		super(props)
-		this.state= {
-			data2: [
-				{ id: 1, name: "mov1", viewers: 987, like: false, favourite: false},
-				{ id: 2, name: "ali", viewers: 887, like: false, favourite: false},
-				{ id: 3, name: "zaer", viewers: 787, like: true, favourite: false},
-				{ id: 4, name: "w", viewers: 787, like: true, favourite: false}
-			],
-			term: '',
-			filter: 'all'
+// class User extends Component{
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             counter: 0,
+//             age: ''
+//         }
+//     }
+//
+//     clickHander = () =>{
+//         // bu bizga yangi qimat qaytaradi
+//         this.setState(prevState =>({
+//             counter: prevState.counter + 1,
+//         }))
+//     }
+//     clickHander2 = () =>{
+//         // bu bizga yangi qimat qaytaradi
+//         this.setState(prevState =>({
+//             counter: prevState.counter - 1,
+//         }))
+//     }
+//
+//     clickHander3 = () =>{
+//         // bu bizga yangi qimat qaytaradi
+//         this.setState({
+//             counter: 0
+//         })
+//     }
+//     changeHander =(e, name) =>{
+//         console.log(name)
+//         this.setState({
+//             counter: e.target.value
+//         })
+//     }
+//     render() {
+//         const {firstName, lastNam, link,} = this.props
+//         console.log(this.props)
+//
+//         const {age, counter} = this.state
+//
+//         return (
+//             <div className="border w-25 p-3 m-auto mb-4">
+//                 <h4>
+//                     Mening ismim - {firstName}, sharifim- {lastNam}
+//                     <br/>
+//                     Yoshim {age}
+//                 </h4>
+//                 <a href={link}>Link</a>
+//                 <div>
+//                     <button
+//                         onClick={this.clickHander}
+//                         type="button"
+//                         className="btn btn-success mx-2"
+//                     >
+//                         Success
+//                     </button>
+//                     <button
+//                         type="button"
+//                         className="btn btn-danger mx-2"
+//                         nClick={this.clickHander2}
+//                     >
+//                         Danger
+//                     </button>
+//                     <button
+//                         type="button"
+//                         className="btn btn-warning mx-2"
+//                         onClick={this.clickHander3}
+//                     >
+//                         Warning
+//                     </button>
+//                     <p>{counter}</p>
+//                     <div>
+//                         <label htmlFor="basic-url" className="form-label">Yoshim</label>
+//                         <input className="form-control" type="number" onChange={(e) => this.changeHander(e, 'Khan')}/>
+//                     </div>
+//                 </div>
+//             </div>
+//         )
+//     }
+// }
 
-		}
+const User = ({ firstName, lastName, link }) =>{
+	const [counter, setCounter] = useState(0)
+	const onIncrement = () =>{
+		setCounter(counter + 1)
+	}
+	const onDicrement = () =>{
+		setCounter(counter - 1)
+	}
+	const onRes = () =>{
+		setCounter(0)
 	}
 
-	ondelete = id => {
-		this.setState(({data2}) => ({
-			data2 : data2.filter(c => c.id !== id)
-		}))
-		console.log(id)
-	}
-	// ondelete = id => {
-	// 	this.setState(({data2}) =>{
-	// 		const newArr = data2.filter(c => c.id !== id)
-	// 		return{
-	// 			data2: newArr
-	// 		}
-	// 	})
-	// }
+	return (
+		<div className="border w-25 p-3 m-auto mb-4">
+			<h4>
+				Mening ismim - {firstName}, sharifim- {lastName}
+			</h4>
+			<a href={link}>Link</a>
+			<div className="text-center"><b>{counter}</b></div>
 
-	addForm = (item) =>{
-		this.setState(({data2 }) =>{
-			const  newItme = [...data2, {...item, id: uuidv4(), favourite: false, like: false}]
-			return{
-				data2: newItme
-			}
-		})
-	}
-
-	onTogProp = (id, prop) =>{
-		console.log(prop)
-		this.setState(({data2 }) =>({
-		 data2: data2.map(item =>{
-				if (item.id == id){
-					return{...item, [prop]: !item[prop]}
-				}
-				return item
-			}),
-		}))
-	}
-
-	searchHandeler = (arr, term) => {
-		if (term.length === 0){
-			return arr
-		}
-		return arr.filter(item => {
-			return item.name.toLowerCase().indexOf(term) > -1
-		})
-	}
-
-	updateTermHandeler = (term) => {
-		this.setState({
-			term: term
-		})
-	}
-
-	filterHandeler = (arr, filter) => {
-		switch (filter){
-			case 'popular':
-				return arr.filter(c => c.like)
-			case 'mostViewrs':
-				return arr.filter(c => c.viewers > 800)
-			default:
-				return arr
-		}
-	}
-
-	// updatefilterHandeler = filter =>this.setState({filter})
-	updatefilterHandeler = (filter) => {
-		this.setState({
-			filter: filter
-		})
-	}
-	render() {
-		const {data2, term, filter} = this.state
-		const allmoviesCount = data2.length
-		const favouriteMMoviesCount = data2.filter(c => c.favourite).length
-		const visibleData = this.filterHandeler(this.searchHandeler(data2, term), filter)
-		return (
-			<div className='app font-monospace'>
-				<div className='content'>
-					<AppInfo  allMoviesCount={allmoviesCount} favouriteMoviesCount={favouriteMMoviesCount} />
-					<div className='search-panel'>
-						<SearchPanel  updateTermHandelerr={this.updateTermHandeler}/>
-						<AppFilter  filterr={filter} updatefilterHandelerr={this.updatefilterHandeler}/>
-					</div>
-					<MovieList
-						data={visibleData}
-						onDelete={this.ondelete}
-						onTogProp={this.onTogProp}
-					/>
-					<MoviesAddForm addForm={this.addForm}  />
-				</div>
+			<div className="mt-5">
+				<button onClick={onIncrement} className="btn btn-success mx-2">
+					+
+				</button>
+				<button className="btn btn-danger mx-2"  onClick={onDicrement}>
+					-
+				</button>
+				<button className="btn btn-warning mx-2" onClick={onRes}>
+					R
+				</button>
 			</div>
-		)
-	}
+		</div>
+	)
 }
-export default App
+const App = () => {
+	return (
+		<div className="App">
+			<User firstName='Abdulaxadxon' lastName='Azimov' link='https://github.com/Mrkhan14'></User>
+			<User firstName='Abdulaxadxon2' lastName='Azimov2' link='https://github.com/Mrkhan14'></User>
+		</div>
+	);
+}
+export default App;
