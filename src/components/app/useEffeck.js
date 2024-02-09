@@ -94,29 +94,61 @@ import { Component, useState, useEffect}  from "react";
 //     }
 // }
 
-const User = () =>{
-	const [counter, setCounter] = useState(0)
-	const onIncrement = () =>{
-		setCounter(counter + 1)
-	}
-	return (
-		<div className="border w-25 p-3 m-auto mb-4">
+const User = ({ firstName, lastName, link }) =>{
+    const [counter, setCounter] = useState(0)
+    const onIncrement = () =>{
+        setCounter(counter + 1)
+    }
+    const onDicrement = () =>{
+        setCounter(counter - 1)
+    }
+    const onRes = () =>{
+        setCounter(0)
+    }
 
-			<div className="text-center"><b>{counter}</b></div>
+    useEffect(() =>{
+        console.log('efect')
+        document.title = `son: ${counter}`
 
-			<div className="mt-5">
-				<button onClick={onIncrement} className="btn btn-success mx-2">
-					+
-				</button>
-			</div>
-		</div>
-	)
+        return ()=>{
+            console.log('delet boldi')
+        }
+    },[] )
+
+    return (
+        <div className="border w-25 p-3 m-auto mb-4">
+            <h4>
+                Mening ismim - {firstName}, sharifim- {lastName}
+            </h4>
+            <a href={link}>Link</a>
+            <div className="text-center"><b>{counter}</b></div>
+
+            <div className="mt-5">
+                <button onClick={onIncrement} className="btn btn-success mx-2">
+                    +
+                </button>
+                <button className="btn btn-danger mx-2"  onClick={onDicrement}>
+                    -
+                </button>
+                <button className="btn btn-warning mx-2" onClick={onRes}>
+                    R
+                </button>
+            </div>
+        </div>
+    )
 }
 
 const App = () => {
-	return (
+    const [isDisplay, setIsDisplay] = useState(true)
+    const deletBlock = () => {
+        setIsDisplay(false)
+    }
+    return (
         <div className="App">
-           <User firstName='Abdulaxadxon' lastName='Azimov' link='https://github.com/Mrkhan14'></User>
+            <button className="btn btn-warning mx-2" onClick={deletBlock}>
+                Delet
+            </button>
+            {isDisplay && <User firstName='Abdulaxadxon' lastName='Azimov' link='https://github.com/Mrkhan14'></User>}
         </div>
     );
 }
