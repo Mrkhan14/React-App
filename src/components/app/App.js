@@ -1,5 +1,6 @@
 import './App.css';
-import { Component, useState, useEffect}  from "react";
+import { Component, useState, useEffect,useCallback }  from "react";
+import CounterItem from "../counter-item/counter-item";
 
 // class User extends Component{
 //     constructor(props) {
@@ -94,29 +95,56 @@ import { Component, useState, useEffect}  from "react";
 //     }
 // }
 
+
 const User = () =>{
 	const [counter, setCounter] = useState(0)
+	const [activ, setActiv] = useState(true)
+
 	const onIncrement = () =>{
 		setCounter(counter + 1)
 	}
+
+	const onTogagle = () => {
+		return setActiv(prevState => ! prevState)
+	}
+
+	const counterDeneret = useCallback(() => {
+		return new Array(counter).fill('').map((_, idx) => `Counter nomer ${idx + 1}`)
+	},
+	[counter])
+
+	console.log(counterDeneret())
+
+	const colors={
+		color: activ ? 'green' : 'red',
+	}
+
 	return (
 		<div className="border w-25 p-3 m-auto mb-4">
 
-			<div className="text-center"><b>{counter}</b></div>
+			<div className="text-center" style={colors}>
+				user Actio
+				<b>{counter}</b>
+			</div>
 
 			<div className="mt-5">
 				<button onClick={onIncrement} className="btn btn-success mx-2">
-					+
+					Increment
+				</button>
+				<button onClick={onTogagle} className="btn btn-success mx-2">
+					Togagle
 				</button>
 			</div>
+
+			<CounterItem  counterDeneretY={counterDeneret}/>
 		</div>
 	)
 }
 
 const App = () => {
 	return (
-        <div className="App">
-           <User firstName='Abdulaxadxon' lastName='Azimov' link='https://github.com/Mrkhan14'></User>
+		<div className="App">
+			<User></User>
         </div>
     );
 }
