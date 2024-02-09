@@ -111,9 +111,8 @@ const User = () =>{
 	const counterDeneret = useCallback(() => {
 		return new Array(counter).fill('').map((_, idx) => `Counter nomer ${idx + 1}`)
 	},
-	[counter])
-
-	console.log(counterDeneret())
+	[counter]
+	)
 
 	const colors={
 		color: activ ? 'green' : 'red',

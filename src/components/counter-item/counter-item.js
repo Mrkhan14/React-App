@@ -6,6 +6,7 @@ const CounterItme = ({counterDeneretY}) => {
     useEffect(() => {
         const newItme = counterDeneretY()
         setItme(newItme)
+        console.log('ss')
     }, [counterDeneretY])
 
     return (
