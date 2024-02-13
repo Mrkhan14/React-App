@@ -1,6 +1,6 @@
 import './App.css';
-import { Component, useState, useEffect,useCallback }  from "react";
-import CounterItem from "../counter-item/counter-item";
+import {Component, useState, useEffect, useCallback, useMemo} from "react";
+// import CounterItem from "../counter-item/counter-item";
 
 // class User extends Component{
 //     constructor(props) {
@@ -95,6 +95,12 @@ import CounterItem from "../counter-item/counter-item";
 //     }
 // }
 
+const bigCounter = (number) => {
+	console.log('reder')
+	let i = 0
+	while (i < 1000000000) i++
+	return number * 2
+}
 
 const User = () =>{
 	const [counter, setCounter] = useState(0)
@@ -108,22 +114,24 @@ const User = () =>{
 		return setActiv(prevState => ! prevState)
 	}
 
-	const counterDeneret = useCallback(() => {
-		return new Array(counter).fill('').map((_, idx) => `Counter nomer ${idx + 1}`)
-	},
-	[counter]
-	)
+	// const counterDeneret = useCallback(() => {
+	// 	return new Array(counter).fill('').map((_, idx) => `Counter nomer ${idx + 1}`)
+	// 	},
+	// [counter]
+	// )
 
 	const colors={
 		color: activ ? 'green' : 'red',
 	}
+
+	const number = useMemo(()=> bigCounter(counter), [counter])
 
 	return (
 		<div className="border w-25 p-3 m-auto mb-4">
 
 			<div className="text-center" style={colors}>
 				user Actio
-				<b>{counter}</b>
+				<b>{number}</b>
 			</div>
 
 			<div className="mt-5">
@@ -135,7 +143,7 @@ const User = () =>{
 				</button>
 			</div>
 
-			<CounterItem  counterDeneretY={counterDeneret}/>
+			{/*<CounterItem  counterDeneretY={counterDeneret}/>*/}
 		</div>
 	)
 }

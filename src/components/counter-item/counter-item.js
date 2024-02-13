@@ -12,8 +12,8 @@ const CounterItme = ({counterDeneretY}) => {
     return (
         <div>
             <ul>
-                {itme.map(itme =>(
-                    <li key={itme}>{itme}</li>
+                {itme.map(itme2 =>(
+                    <li key={itme2}>{itme2}</li>
                 ))}
             </ul>
         </div>
